@@ -51,12 +51,6 @@ body,
   min-height: 100vh;
 }
 
-html {
-  overflow-x: clip;
-}
-body {
-  overflow-x: clip;
-}
 
 body {
   background:
