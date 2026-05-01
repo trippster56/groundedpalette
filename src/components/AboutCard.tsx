@@ -69,14 +69,14 @@ const AboutCard = () => {
       </div>
 
       <div className="orbit orbit-2">
-        <div className="orbit-inner orbit-block">
-          <img src="/blocks/pumpkin-pumpkin-wall.png" alt="" loading="lazy" />
+        <div className="orbit-inner orbit-photo">
+          <img src="/about/grounded-map.png" alt="" loading="lazy" />
         </div>
       </div>
 
       <div className="orbit orbit-3">
-        <div className="orbit-inner orbit-block">
-          <img src="/blocks/mushroom-mushroom-wall.png" alt="" loading="lazy" />
+        <div className="orbit-inner orbit-logo">
+          <img src="/about/tripp-logo.png" alt="" loading="lazy" />
         </div>
       </div>
     </div>

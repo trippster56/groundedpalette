@@ -6,7 +6,7 @@ export type Sort = 'trending' | 'newest' | 'top';
 
 export function usePalettes(sort: Sort = 'trending') {
   const { data: session } = useSession();
-  const userId = session?.user.id;
+  const userId = session?.user?.id;
 
   const [palettes, setPalettes] = useState<Palette[]>([]);
   const [loading, setLoading] = useState(true);

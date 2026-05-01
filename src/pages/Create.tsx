@@ -233,7 +233,7 @@ export default function Create() {
               <div className="form-row">
                 <span>Publishing as</span>
                 <div className="publishing-as">
-                  <strong>{session?.user.name || session?.user.email?.split('@')[0]}</strong>
+                  <strong>{session?.user?.name || session?.user?.email?.split('@')[0]}</strong>
                 </div>
               </div>
               <label className="form-row">
