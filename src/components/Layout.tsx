@@ -37,7 +37,7 @@ export default function Layout() {
             </a>
             . Fan project — not affiliated with Obsidian or Microsoft.
           </span>
-          <span className="footer-mono">v0.1 · 🍂 backyard build</span>
+          <span className="footer-mono">v1.0 · 🍂 backyard build</span>
         </div>
       </footer>
     </div>

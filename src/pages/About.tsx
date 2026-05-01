@@ -43,6 +43,29 @@ export default function About() {
                 Make your first palette
               </Link>
             </p>
+
+            <h2 className="about-links-heading">Links &amp; other builds</h2>
+            <ul className="about-links">
+              <li>
+                <a
+                  href="https://github.com/trippster56/groundedpalette"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  GitHub — open source repo for this site
+                </a>
+              </li>
+              <li>
+                <a href="https://tripplisenby.com" target="_blank" rel="noreferrer">
+                  tripplisenby.com — my personal site with all my projects
+                </a>
+              </li>
+              <li>
+                <a href="https://trippledprints.com" target="_blank" rel="noreferrer">
+                  trippledprints.com — 3D prints &amp; designs
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 

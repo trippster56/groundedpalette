@@ -783,6 +783,35 @@ textarea.input {
   color: var(--text-high);
 }
 
+.about-links-heading {
+  margin: 32px 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-high);
+}
+.about-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+}
+.about-links li {
+  position: relative;
+  padding-left: 18px;
+}
+.about-links li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--sunset, #d44a1c);
+}
+
 /* ============================================================
    LOADING / ALERTS
    ============================================================ */
