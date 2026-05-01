@@ -17,7 +17,17 @@ export default function Home() {
       <section className="home-hero">
         <div className="eyebrow">Block palettes for Grounded 2 base builders</div>
         <h1>
-          Build like the <span className="accent">backyard</span>
+          Build like the{' '}
+          <span className="accent">
+            <img
+              className="wordmark-img"
+              src="/backyard.svg"
+              alt="backyard"
+              onError={(e) => {
+                e.currentTarget.src = '/backyard.png';
+              }}
+            />
+          </span>
           <br />
           remembers you.
         </h1>

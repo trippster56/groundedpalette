@@ -14,6 +14,7 @@
   --sunset: #d44a1c;
   --honey: #e9b659;
   --leaf: #6fa148;
+  --grounded-red: #d52312;
 
   /* Text */
   --text-high: #f3ead8;
@@ -22,8 +23,9 @@
   --text-dim: #6f6a58;
 
   /* Type */
-  --font-display: 'Fredoka', system-ui, sans-serif;
-  --font-heading: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-wordmark: 'Lilita One', system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', system-ui, sans-serif;
+  --font-heading: 'Barlow Condensed', system-ui, sans-serif;
   --font-body: 'Manrope', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 

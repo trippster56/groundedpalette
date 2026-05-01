@@ -29,10 +29,11 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 22px;
   color: var(--text-high);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 .brand:hover {
   color: var(--text-high);
@@ -84,10 +85,12 @@
 }
 .page-header h1 {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 44px;
+  font-weight: 600;
+  font-size: 48px;
   margin: 0 0 6px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-high);
 }
 .page-sub {
   color: var(--text-muted);
@@ -134,14 +137,26 @@
 }
 .home-hero h1 {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(44px, 7vw, 84px);
-  line-height: 0.95;
+  font-weight: 600;
+  font-size: clamp(40px, 6.4vw, 76px);
+  line-height: 1.15;
   margin: 0 0 16px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-high);
 }
 .home-hero h1 .accent {
-  color: var(--pumpkin);
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 0;
+}
+.home-hero h1 .accent .wordmark-img {
+  display: block;
+  height: 3.4em;
+  width: auto;
+  margin: -1.25em 0.12em -1.15em;
+  transform: rotate(-2deg);
+  filter: drop-shadow(0 6px 0 #3a1a08) drop-shadow(0 16px 26px rgba(0, 0, 0, 0.55));
 }
 .home-hero p.lede {
   font-size: 18px;
@@ -168,9 +183,11 @@
 .section-head h2 {
   font-family: var(--font-heading);
   font-weight: 600;
-  font-size: 26px;
+  font-size: 28px;
   margin: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-high);
 }
 .section-link {
   font-size: 14px;
@@ -544,10 +561,12 @@ textarea.input {
 }
 .detail-header h1 {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 48px;
+  font-weight: 600;
+  font-size: 52px;
   margin: 0 0 6px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-high);
 }
 .detail-description {
   color: var(--text-mid);
@@ -869,10 +888,12 @@ textarea.input {
 }
 .auth-card h1 {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 32px;
+  font-weight: 600;
+  font-size: 36px;
   margin: 0 0 6px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-high);
 }
 .auth-foot {
   margin-top: 18px;
@@ -1021,10 +1042,12 @@ textarea.input {
 }
 .notfound h1 {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 48px;
+  font-weight: 600;
+  font-size: 56px;
   margin: 0 0 8px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-high);
 }
 
 /* ============================================================
