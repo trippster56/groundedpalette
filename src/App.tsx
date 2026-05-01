@@ -9,6 +9,7 @@ import About from './pages/About';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import MyPalettes from './pages/MyPalettes';
+import { useDocumentTitle } from './hooks/useDocumentTitle';
 import './app.css';
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
 }
 
 function NotFound() {
+  useDocumentTitle('Not found');
   return (
     <div className="page notfound-page">
       <div className="notfound">

@@ -2,9 +2,11 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PaletteCard from '../components/PaletteCard';
 import { usePalettes, type Sort } from '../hooks/usePalettes';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { blockById } from '../data/blocks';
 
 export default function Browse() {
+  useDocumentTitle('Browse');
   const [sort, setSort] = useState<Sort>('trending');
   const { palettes, loading, error, isLiked, toggleLike } = usePalettes(sort);
   const navigate = useNavigate();

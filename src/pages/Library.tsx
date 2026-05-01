@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
 import { allCategories, allSets, blocks } from '../data/blocks';
 import BlockTile from '../components/BlockTile';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export default function Library() {
+  useDocumentTitle('Blocks');
   const [query, setQuery] = useState('');
   const [setFilter, setSetFilter] = useState('');
   const [catFilter, setCatFilter] = useState('');

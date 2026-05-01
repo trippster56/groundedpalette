@@ -3,8 +3,10 @@ import { Link, Navigate } from 'react-router-dom';
 import type { Palette } from '../types';
 import PaletteCard from '../components/PaletteCard';
 import { useSession } from '../lib/auth-client';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export default function MyPalettes() {
+  useDocumentTitle('My palettes');
   const { data: session, isPending } = useSession();
   const [palettes, setPalettes] = useState<Palette[]>([]);
   const [loading, setLoading] = useState(true);

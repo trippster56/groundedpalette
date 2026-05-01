@@ -3,11 +3,13 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { allCategories, allSets, blockById, blocks } from '../data/blocks';
 import BlockTile from '../components/BlockTile';
 import { usePalettes } from '../hooks/usePalettes';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { useSession } from '../lib/auth-client';
 
 const MAX_SLOTS = 6;
 
 export default function Create() {
+  useDocumentTitle('Create');
   const navigate = useNavigate();
   const [search] = useSearchParams();
   const { data: session, isPending } = useSession();

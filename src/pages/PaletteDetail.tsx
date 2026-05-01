@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { usePalettes } from '../hooks/usePalettes';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { blockById } from '../data/blocks';
 import BlockTile from '../components/BlockTile';
 import type { Palette } from '../types';
@@ -42,6 +43,8 @@ export default function PaletteDetail() {
   const [palette, setPalette] = useState<Palette | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+
+  useDocumentTitle(palette?.title ?? (notFound ? 'Not found' : 'Palette'));
 
   useEffect(() => {
     if (!id) return;

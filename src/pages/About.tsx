@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import AboutCard from '../components/AboutCard';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export default function About() {
+  useDocumentTitle('About');
   return (
     <div className="page about-page">
       <section className="about-cluster-stage">

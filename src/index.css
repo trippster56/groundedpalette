@@ -51,6 +51,13 @@ body,
   min-height: 100vh;
 }
 
+html {
+  overflow-x: clip;
+}
+body {
+  overflow-x: clip;
+}
+
 body {
   background:
     radial-gradient(ellipse 1200px 600px at 50% -10%, rgba(232, 122, 42, 0.18), transparent 60%),

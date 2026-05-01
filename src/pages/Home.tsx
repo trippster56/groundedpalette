@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import PaletteCard from '../components/PaletteCard';
 import { usePalettes } from '../hooks/usePalettes';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export default function Home() {
+  useDocumentTitle(null);
   const navigate = useNavigate();
   const { palettes, loading, error, isLiked, toggleLike } = usePalettes('top');
   const handleLike = async (id: string) => {

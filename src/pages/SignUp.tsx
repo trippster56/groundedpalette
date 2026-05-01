@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { authClient } from '../lib/auth-client';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export default function SignUp() {
+  useDocumentTitle('Sign up');
   const navigate = useNavigate();
   const [search] = useSearchParams();
   const next = search.get('next') || '/';
