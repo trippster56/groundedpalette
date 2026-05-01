@@ -1726,3 +1726,81 @@ textarea.input {
   font-style: italic;
   margin-left: 2px;
 }
+
+/* Mobile draw lock — only meaningful on touch devices, hidden otherwise */
+.draw-lock {
+  display: none;
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  color: var(--text-mid);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+.draw-lock.locked {
+  border-color: var(--honey);
+  color: var(--honey);
+  background: rgba(233, 182, 89, 0.08);
+}
+.draw-lock.unlocked {
+  border-color: var(--leaf);
+  color: var(--leaf);
+  background: rgba(111, 161, 72, 0.1);
+}
+
+/* When locked, give the grid a subtle "snoozed" tint so it's clear the
+   board isn't accepting input. */
+.plan-grid-board.locked .plan-cell { cursor: default; }
+.plan-grid-board.locked { opacity: 0.92; }
+
+.plan-mobile-summary {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+}
+.summary-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px 3px 4px;
+  background: var(--bg-warm-2);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--honey);
+}
+.summary-pill .block-tile-wrap { width: 20px; height: 20px; }
+.summary-more {
+  padding: 3px 10px;
+  color: var(--text-muted);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .draw-lock { display: block; }
+  .plan-mobile-summary { display: flex; }
+}
+
+/* Tighten the planner layout on small screens */
+@media (max-width: 760px) {
+  .plan-page { padding-left: 14px; padding-right: 14px; }
+  .plan-grid { gap: 12px; }
+  .plan-card { padding: 12px; }
+  .plan-h { font-size: 13px; margin-bottom: 8px; }
+  .role-row { grid-template-columns: 96px 1fr; }
+  .palette-bar { padding: 10px; }
+  .palette-bar-mini .block-tile-wrap { width: 24px; height: 24px; }
+  .floor-bar { flex-wrap: wrap; }
+  .floor-foundation-toggle { margin-left: 0; }
+  .tool-btn { font-size: 13px; padding: 8px; }
+}

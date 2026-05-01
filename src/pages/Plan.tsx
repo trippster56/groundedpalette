@@ -125,6 +125,14 @@ export default function Plan() {
     initial?.paletteId ?? null,
   );
 
+  // On touch devices, the board defaults to "locked" — page scrolls past
+  // it normally. The user taps the lock button to enter drawing mode.
+  const isCoarsePointer =
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(pointer: coarse)').matches;
+  const [drawLocked, setDrawLocked] = useState<boolean>(isCoarsePointer);
+
   const { palettes, loading: palettesLoading } = usePalettes('trending');
   const [paletteQuery, setPaletteQuery] = useState('');
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -245,11 +253,17 @@ export default function Plan() {
   const activeFloorRef = useRef(activeFloor);
   activeFloorRef.current = activeFloor;
 
+  const drawLockedRef = useRef(drawLocked);
+  drawLockedRef.current = drawLocked;
+
   const handleCellDown = useCallback((
     x: number,
     y: number,
     e: React.PointerEvent<HTMLButtonElement>,
   ) => {
+    // Touch devices: ignore unless drawing is unlocked. Lets the page
+    // scroll naturally over the grid.
+    if (e.pointerType === 'touch' && drawLockedRef.current) return;
     const tool = toolRef.current;
     const grid = gridRef.current;
     e.preventDefault();
@@ -591,13 +605,44 @@ export default function Plan() {
             </label>
           </div>
 
+          {/* Mobile-only draw lock — flips the board between scroll-through
+              and drawing modes so taps don't fight with page scroll. */}
+          <button
+            type="button"
+            className={`draw-lock ${drawLocked ? 'locked' : 'unlocked'}`}
+            onClick={() => setDrawLocked((l) => !l)}
+          >
+            {drawLocked ? '🔒 Tap to draw — page scrolls over the grid' : '🎨 Drawing — tap to lock & scroll'}
+          </button>
+
+          {/* Compact mobile tally: surfaces totals without scrolling away
+              from the grid. Hidden on desktop. */}
+          {tally.items.length > 0 && (
+            <div className="plan-mobile-summary">
+              {tally.items.slice(0, 4).map(({ blockId, count }) => {
+                const b = blockById(blockId);
+                if (!b) return null;
+                return (
+                  <span key={blockId} className="summary-pill" title={b.name}>
+                    <BlockTile block={b} size={20} />
+                    <span className="summary-count">×{count}</span>
+                  </span>
+                );
+              })}
+              {tally.items.length > 4 && (
+                <span className="summary-pill summary-more">+{tally.items.length - 4} more</span>
+              )}
+            </div>
+          )}
+
           <div className="plan-grid-wrap">
             <div
               ref={boardRef}
-              className="plan-grid-board"
+              className={`plan-grid-board ${drawLocked ? 'locked' : ''}`}
               style={{
                 gridTemplateColumns: `repeat(${GRID_W}, 1fr)`,
                 gridTemplateRows: `repeat(${GRID_H}, 1fr)`,
+                touchAction: drawLocked ? 'pan-y' : 'none',
               }}
               onMouseLeave={() => (dragging.current = null)}
               onPointerMove={handleBoardPointerMove}
