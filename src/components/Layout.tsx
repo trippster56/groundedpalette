@@ -17,6 +17,7 @@ export default function Layout() {
               Browse
             </NavLink>
             <NavLink to="/create">Create</NavLink>
+            <NavLink to="/plan">Plan</NavLink>
             <NavLink to="/blocks">Blocks</NavLink>
             <NavLink to="/about">About</NavLink>
           </nav>
@@ -37,7 +38,7 @@ export default function Layout() {
             </a>
             . Fan project — not affiliated with Obsidian or Microsoft.
           </span>
-          <span className="footer-mono">v1.0 · 🍂 backyard build</span>
+          <span className="footer-mono">v1.1 · 🍂 backyard build</span>
         </div>
       </footer>
     </div>

@@ -9,6 +9,7 @@ import About from './pages/About';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import MyPalettes from './pages/MyPalettes';
+import Plan from './pages/Plan';
 import { useDocumentTitle } from './hooks/useDocumentTitle';
 import './app.css';
 
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="browse" element={<Browse />} />
         <Route path="palette/:id" element={<PaletteDetail />} />
         <Route path="create" element={<Create />} />
+        <Route path="plan" element={<Plan />} />
         <Route path="blocks" element={<Library />} />
         <Route path="about" element={<About />} />
         <Route path="sign-in" element={<SignIn />} />

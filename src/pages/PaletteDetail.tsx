@@ -138,6 +138,15 @@ export default function PaletteDetail() {
           >
             Remix
           </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => {
+              navigate(`/plan?palette=${palette.id}`);
+            }}
+            title="Open the base planner with this palette pre-loaded"
+          >
+            Plan a build
+          </button>
         </div>
       </header>
 
