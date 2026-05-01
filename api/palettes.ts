@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { query, rowToPalette, type DbPalette } from './_db';
+import { query, rowToPalette, type DbPalette } from './_db.js';
 
 const MAX_TITLE = 80;
 const MAX_AUTHOR = 32;
