@@ -1,4 +1,5 @@
 import { NavLink, Link, Outlet } from 'react-router-dom';
+import UserMenu from './UserMenu';
 
 export default function Layout() {
   return (
@@ -6,7 +7,7 @@ export default function Layout() {
       <header className="topbar">
         <div className="topbar-inner">
           <Link to="/" className="brand">
-            <span className="brand-mark">⌂</span>
+            <img className="brand-mark" src="/favicon_io/apple-touch-icon.png" alt="" />
             <span className="brand-name">
               Grounded<span className="brand-accent">Palette</span>
             </span>
@@ -19,6 +20,7 @@ export default function Layout() {
             <NavLink to="/blocks">Blocks</NavLink>
             <NavLink to="/about">About</NavLink>
           </nav>
+          <UserMenu />
         </div>
       </header>
 

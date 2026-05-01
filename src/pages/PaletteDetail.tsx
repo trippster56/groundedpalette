@@ -90,7 +90,10 @@ export default function PaletteDetail() {
         <div className="detail-actions">
           <button
             className={`btn ${liked ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => toggleLike(palette.id)}
+            onClick={async () => {
+              const r = await toggleLike(palette.id);
+              if (r === 'AUTH_REQUIRED') navigate(`/sign-in?next=${encodeURIComponent(`/palette/${palette.id}`)}`);
+            }}
           >
             {liked ? '♥' : '♡'} {palette.likes}
           </button>

@@ -6,7 +6,7 @@ import BlockTile from './BlockTile';
 interface Props {
   palette: Palette;
   liked?: boolean;
-  onLike?: (id: string) => void;
+  onLike?: (id: string) => void | Promise<unknown>;
 }
 
 export default function PaletteCard({ palette, liked, onLike }: Props) {

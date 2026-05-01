@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PaletteCard from '../components/PaletteCard';
 import { usePalettes, type Sort } from '../hooks/usePalettes';
 import { blockById } from '../data/blocks';
@@ -6,6 +7,11 @@ import { blockById } from '../data/blocks';
 export default function Browse() {
   const [sort, setSort] = useState<Sort>('trending');
   const { palettes, loading, error, isLiked, toggleLike } = usePalettes(sort);
+  const navigate = useNavigate();
+  const handleLike = async (id: string) => {
+    const result = await toggleLike(id);
+    if (result === 'AUTH_REQUIRED') navigate(`/sign-in?next=${encodeURIComponent('/browse')}`);
+  };
   const [query, setQuery] = useState('');
   const [setFilter, setSetFilter] = useState<string>('');
 
@@ -87,7 +93,7 @@ export default function Browse() {
             key={p.id}
             palette={p}
             liked={isLiked(p.id)}
-            onLike={toggleLike}
+            onLike={handleLike}
           />
         ))}
       </div>

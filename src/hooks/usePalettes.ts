@@ -1,29 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { Palette } from '../types';
-
-const LIKES_KEY = 'gp.likes.v1';
-
-function loadLikedSet(): Set<string> {
-  try {
-    const raw = localStorage.getItem(LIKES_KEY);
-    if (!raw) return new Set();
-    return new Set(JSON.parse(raw) as string[]);
-  } catch {
-    return new Set();
-  }
-}
-
-function saveLikedSet(s: Set<string>) {
-  localStorage.setItem(LIKES_KEY, JSON.stringify(Array.from(s)));
-}
+import { useSession } from '../lib/auth-client';
 
 export type Sort = 'trending' | 'newest' | 'top';
 
 export function usePalettes(sort: Sort = 'trending') {
+  const { data: session } = useSession();
+  const userId = session?.user.id;
+
   const [palettes, setPalettes] = useState<Palette[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [liked, setLiked] = useState<Set<string>>(() => loadLikedSet());
+  const [liked, setLiked] = useState<Set<string>>(new Set());
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -44,21 +32,35 @@ export function usePalettes(sort: Sort = 'trending') {
     refresh();
   }, [refresh]);
 
+  // Pull current user's liked set from the server.
+  useEffect(() => {
+    if (!userId) {
+      setLiked(new Set());
+      return;
+    }
+    fetch('/api/me/likes')
+      .then((r) => (r.ok ? r.json() : { ids: [] }))
+      .then((data: { ids: string[] }) => setLiked(new Set(data.ids)))
+      .catch(() => setLiked(new Set()));
+  }, [userId]);
+
   const addPalette = useCallback(
     async (
-      input: Omit<Palette, 'id' | 'createdAt' | 'likes'>,
-    ): Promise<Palette | null> => {
+      input: Omit<Palette, 'id' | 'createdAt' | 'likes' | 'author'>,
+    ): Promise<Palette> => {
       const res = await fetch('/api/palettes', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           title: input.title,
-          author: input.author,
           description: input.description,
           blockIds: input.blockIds,
           tags: input.tags,
         }),
       });
+      if (res.status === 401) {
+        throw new Error('AUTH_REQUIRED');
+      }
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: 'Failed' }));
         throw new Error(err.error || `HTTP ${res.status}`);
@@ -71,14 +73,14 @@ export function usePalettes(sort: Sort = 'trending') {
   );
 
   const toggleLike = useCallback(
-    async (id: string) => {
+    async (id: string): Promise<'OK' | 'AUTH_REQUIRED'> => {
+      if (!userId) return 'AUTH_REQUIRED';
       const newlyLiked = !liked.has(id);
-      // optimistic update
+      // optimistic
       setLiked((prev) => {
         const next = new Set(prev);
         if (newlyLiked) next.add(id);
         else next.delete(id);
-        saveLikedSet(next);
         return next;
       });
       setPalettes((prev) =>
@@ -90,16 +92,19 @@ export function usePalettes(sort: Sort = 'trending') {
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ liked: newlyLiked }),
         });
+        if (res.status === 401) return 'AUTH_REQUIRED';
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = (await res.json()) as { likes: number };
-        setPalettes((prev) => prev.map((p) => (p.id === id ? { ...p, likes: data.likes } : p)));
+        setPalettes((prev) =>
+          prev.map((p) => (p.id === id ? { ...p, likes: data.likes } : p)),
+        );
+        return 'OK';
       } catch {
         // revert on failure
         setLiked((prev) => {
           const next = new Set(prev);
           if (newlyLiked) next.delete(id);
           else next.add(id);
-          saveLikedSet(next);
           return next;
         });
         setPalettes((prev) =>
@@ -107,12 +112,13 @@ export function usePalettes(sort: Sort = 'trending') {
             p.id === id ? { ...p, likes: p.likes + (newlyLiked ? -1 : 1) } : p,
           ),
         );
+        return 'OK';
       }
     },
-    [liked],
+    [liked, userId],
   );
 
   const isLiked = (id: string) => liked.has(id);
 
-  return { palettes, loading, error, refresh, addPalette, toggleLike, isLiked };
+  return { palettes, loading, error, refresh, addPalette, toggleLike, isLiked, signedIn: !!userId };
 }

@@ -6,6 +6,9 @@ import PaletteDetail from './pages/PaletteDetail';
 import Create from './pages/Create';
 import Library from './pages/Library';
 import About from './pages/About';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import MyPalettes from './pages/MyPalettes';
 import './app.css';
 
 export default function App() {
@@ -18,6 +21,9 @@ export default function App() {
         <Route path="create" element={<Create />} />
         <Route path="blocks" element={<Library />} />
         <Route path="about" element={<About />} />
+        <Route path="sign-in" element={<SignIn />} />
+        <Route path="sign-up" element={<SignUp />} />
+        <Route path="me" element={<MyPalettes />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

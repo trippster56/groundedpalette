@@ -1,9 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PaletteCard from '../components/PaletteCard';
 import { usePalettes } from '../hooks/usePalettes';
 
 export default function Home() {
+  const navigate = useNavigate();
   const { palettes, loading, error, isLiked, toggleLike } = usePalettes('top');
+  const handleLike = async (id: string) => {
+    const result = await toggleLike(id);
+    if (result === 'AUTH_REQUIRED') navigate('/sign-in?next=%2F');
+  };
   const featured = palettes.slice(0, 3);
   const fresh = [...palettes].sort((a, b) => b.createdAt - a.createdAt).slice(0, 6);
 
@@ -50,7 +55,7 @@ export default function Home() {
                 key={p.id}
                 palette={p}
                 liked={isLiked(p.id)}
-                onLike={toggleLike}
+                onLike={handleLike}
               />
             ))}
           </div>
@@ -70,7 +75,7 @@ export default function Home() {
                 key={p.id}
                 palette={p}
                 liked={isLiked(p.id)}
-                onLike={toggleLike}
+                onLike={handleLike}
               />
             ))}
           </div>

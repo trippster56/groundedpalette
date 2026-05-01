@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { query, rowToPalette, type DbPalette } from './_db.js';
+import { getUser } from './_auth.js';
 
 const MAX_TITLE = 80;
-const MAX_AUTHOR = 32;
 const MAX_DESC = 280;
 const MAX_BLOCKS = 6;
 const MAX_TAGS = 5;
@@ -34,17 +34,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'POST') {
+      const user = await getUser(req);
+      if (!user) return res.status(401).json({ error: 'Sign in to publish' });
+
       const body = req.body ?? {};
       const title = String(body.title ?? '').trim();
-      const author = String(body.author ?? '').trim();
       const description = body.description ? String(body.description).trim() : null;
       const blockIds: unknown = body.blockIds;
       const tagsIn: unknown = body.tags;
 
       if (!title || title.length > MAX_TITLE)
         return res.status(400).json({ error: 'title required (≤80 chars)' });
-      if (!author || author.length > MAX_AUTHOR)
-        return res.status(400).json({ error: 'author required (≤32 chars)' });
       if (description && description.length > MAX_DESC)
         return res.status(400).json({ error: 'description too long' });
       if (
@@ -64,12 +64,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           .slice(0, MAX_TAGS);
       }
 
+      const author = (user.name && user.name.trim()) || (user.email?.split('@')[0] ?? 'Anonymous');
       const id = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
       const rows = await query<DbPalette>(
-        `INSERT INTO palettes (id, title, author, description, block_ids, tags)
-         VALUES ($1, $2, $3, $4, $5, $6)
+        `INSERT INTO palettes (id, title, author, description, block_ids, tags, user_id)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)
          RETURNING ${SELECT_COLS}`,
-        [id, title, author, description, blockIds as string[], tags],
+        [id, title, author, description, blockIds as string[], tags, user.id],
       );
 
       return res.status(201).json(rowToPalette(rows[0]));

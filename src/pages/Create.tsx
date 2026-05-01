@@ -1,19 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { allCategories, allSets, blockById, blocks } from '../data/blocks';
 import BlockTile from '../components/BlockTile';
 import { usePalettes } from '../hooks/usePalettes';
+import { useSession } from '../lib/auth-client';
 
 const MAX_SLOTS = 6;
 
 export default function Create() {
   const navigate = useNavigate();
   const [search] = useSearchParams();
+  const { data: session, isPending } = useSession();
   const { palettes, addPalette } = usePalettes();
 
   const [selected, setSelected] = useState<string[]>([]);
   const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
   const [tagsRaw, setTagsRaw] = useState('');
   const [query, setQuery] = useState('');
@@ -64,7 +65,7 @@ export default function Create() {
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const canSave =
-    !saving && title.trim() && author.trim() && selected.length >= 2;
+    !saving && !!session && title.trim() && selected.length >= 2;
 
   const save = async () => {
     if (!canSave) return;
@@ -73,7 +74,6 @@ export default function Create() {
     try {
       const palette = await addPalette({
         title: title.trim(),
-        author: author.trim(),
         description: description.trim() || undefined,
         blockIds: selected,
         tags: tagsRaw
@@ -83,10 +83,34 @@ export default function Create() {
       });
       if (palette) navigate(`/palette/${palette.id}`);
     } catch (e) {
-      setSaveError(e instanceof Error ? e.message : 'Failed to save');
+      const msg = e instanceof Error ? e.message : 'Failed to save';
+      if (msg === 'AUTH_REQUIRED') {
+        navigate(`/sign-in?next=${encodeURIComponent('/create')}`);
+        return;
+      }
+      setSaveError(msg);
       setSaving(false);
     }
   };
+
+  if (!isPending && !session) {
+    return (
+      <div className="page">
+        <header className="page-header">
+          <h1>Create a Palette</h1>
+          <p className="page-sub">Sign in to publish your palette to the community.</p>
+        </header>
+        <div className="hero-actions">
+          <Link to="/sign-in?next=%2Fcreate" className="btn btn-primary">
+            Sign in
+          </Link>
+          <Link to="/sign-up?next=%2Fcreate" className="btn btn-secondary">
+            Create account
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="page create-page">
@@ -188,16 +212,12 @@ export default function Create() {
                   maxLength={48}
                 />
               </label>
-              <label className="form-row">
-                <span>Author</span>
-                <input
-                  className="input"
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                  placeholder="BackyardBuilder"
-                  maxLength={32}
-                />
-              </label>
+              <div className="form-row">
+                <span>Publishing as</span>
+                <div className="publishing-as">
+                  <strong>{session?.user.name || session?.user.email?.split('@')[0]}</strong>
+                </div>
+              </div>
               <label className="form-row">
                 <span>Description</span>
                 <textarea
