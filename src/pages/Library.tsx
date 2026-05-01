@@ -70,7 +70,26 @@ export default function Library() {
             </option>
           ))}
         </select>
+        {(query || setFilter || catFilter) && (
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={() => {
+              setQuery('');
+              setSetFilter('');
+              setCatFilter('');
+            }}
+          >
+            Clear filters
+          </button>
+        )}
       </div>
+
+      {filtered.length === 0 && (
+        <div className="empty-state">
+          <div className="empty-icon">🔎</div>
+          <p>No blocks match those filters.</p>
+        </div>
+      )}
 
       {grouped.map(([set, items]) => (
         <section key={set} className="library-set">

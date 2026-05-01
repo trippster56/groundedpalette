@@ -5,6 +5,35 @@ import { blockById } from '../data/blocks';
 import BlockTile from '../components/BlockTile';
 import type { Palette } from '../types';
 
+function ShareButton({ paletteId, title }: { paletteId: string; title: string }) {
+  const [copied, setCopied] = useState(false);
+  const url = typeof window !== 'undefined' ? `${window.location.origin}/palette/${paletteId}` : '';
+
+  const share = async () => {
+    if (typeof navigator !== 'undefined' && 'share' in navigator) {
+      try {
+        await navigator.share({ title: `${title} — Grounded Palette`, url });
+        return;
+      } catch {
+        /* user cancelled — fall through to copy */
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard blocked */
+    }
+  };
+
+  return (
+    <button className="btn btn-ghost" onClick={share}>
+      {copied ? '✓ Copied' : 'Share'}
+    </button>
+  );
+}
+
 export default function PaletteDetail() {
   const { id } = useParams<{ id: string }>();
   const { palettes, isLiked, toggleLike } = usePalettes();
@@ -97,6 +126,7 @@ export default function PaletteDetail() {
           >
             {liked ? '♥' : '♡'} {palette.likes}
           </button>
+          <ShareButton paletteId={palette.id} title={palette.title} />
           <button
             className="btn btn-ghost"
             onClick={() => {

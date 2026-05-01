@@ -153,7 +153,25 @@ export default function Create() {
                 </option>
               ))}
             </select>
+            {(query || setFilter || catFilter) && (
+              <button
+                className="btn btn-ghost btn-sm"
+                onClick={() => {
+                  setQuery('');
+                  setSetFilter('');
+                  setCatFilter('');
+                }}
+              >
+                Clear
+              </button>
+            )}
           </div>
+
+          {filtered.length === 0 && (
+            <div className="empty-state empty-state-sm">
+              <p>No blocks match those filters.</p>
+            </div>
+          )}
 
           <div className="library-grid">
             {filtered.map((b) => {

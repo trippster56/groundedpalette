@@ -85,7 +85,44 @@ export default function Browse() {
             </button>
           ))}
         </div>
+        {(query || setFilter) && (
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={() => {
+              setQuery('');
+              setSetFilter('');
+            }}
+          >
+            Clear filters
+          </button>
+        )}
       </div>
+
+      {!loading && filtered.length === 0 && (
+        <div className="empty-state">
+          <div className="empty-icon">🍂</div>
+          <p>
+            {query || setFilter
+              ? 'No palettes match your filters.'
+              : 'No palettes yet — be the first to share one.'}
+          </p>
+          {(query || setFilter) ? (
+            <button
+              className="btn btn-secondary"
+              onClick={() => {
+                setQuery('');
+                setSetFilter('');
+              }}
+            >
+              Clear filters
+            </button>
+          ) : (
+            <a className="btn btn-primary" href="/create">
+              Create a palette
+            </a>
+          )}
+        </div>
+      )}
 
       <div className="palette-grid">
         {filtered.map((p) => (

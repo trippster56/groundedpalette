@@ -18,7 +18,8 @@ export default function UserMenu() {
 
   if (isPending) return <div className="user-skel" />;
 
-  if (!session) {
+  const user = session?.user;
+  if (!user) {
     return (
       <Link to="/sign-in" className="btn btn-secondary btn-sm">
         Sign in
@@ -26,7 +27,6 @@ export default function UserMenu() {
     );
   }
 
-  const user = session.user;
   const initial = (user.name || user.email || '?').charAt(0).toUpperCase();
 
   return (

@@ -32,9 +32,18 @@ export default function App() {
 
 function NotFound() {
   return (
-    <div className="page">
-      <h1>Lost in the leaves</h1>
-      <p className="page-sub">That page isn't here. Try Browse or Home.</p>
+    <div className="page notfound-page">
+      <div className="notfound">
+        <div className="notfound-icon">🍂</div>
+        <h1>Lost in the leaves</h1>
+        <p className="page-sub">
+          That page isn't here. Maybe a stink bug carried it off.
+        </p>
+        <div className="hero-actions" style={{ justifyContent: 'center' }}>
+          <a className="btn btn-primary" href="/">Home</a>
+          <a className="btn btn-secondary" href="/browse">Browse palettes</a>
+        </div>
+      </div>
     </div>
   );
 }

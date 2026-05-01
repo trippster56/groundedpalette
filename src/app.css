@@ -956,9 +956,362 @@ textarea.input {
   padding: 48px 24px;
   text-align: center;
   color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
 }
 .empty-state p {
-  margin: 0 0 18px;
+  margin: 0;
   font-size: 16px;
 }
+.empty-state-sm {
+  padding: 24px 16px;
+  font-size: 14px;
+}
+.empty-icon {
+  font-size: 36px;
+  filter: saturate(1.2);
+}
 
+/* 404 */
+.notfound-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notfound {
+  text-align: center;
+  max-width: 520px;
+}
+.notfound-icon {
+  font-size: 56px;
+  margin-bottom: 12px;
+}
+.notfound h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 48px;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   MOBILE / RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .topbar-inner {
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  .nav {
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a {
+    padding: 6px 10px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .brand-name {
+    font-size: 18px;
+  }
+  .page {
+    padding: 24px 16px 64px;
+  }
+  .page-header h1,
+  .home-hero h1,
+  .detail-header h1 {
+    font-size: clamp(36px, 9vw, 56px);
+  }
+  .home-hero {
+    padding: 32px 0 32px;
+    margin-bottom: 32px;
+  }
+  .home-hero p.lede {
+    font-size: 16px;
+  }
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .toolbar .input,
+  .toolbar select.input {
+    width: 100%;
+  }
+  .sort-tabs {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .sort-tab {
+    flex: 1;
+    text-align: center;
+    padding: 8px 6px;
+  }
+  .palette-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .detail-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .detail-actions {
+    width: 100%;
+  }
+  .detail-actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+  .detail-blocks {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .detail-block {
+    padding: 10px;
+  }
+  .footer-inner {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .auth-card {
+    padding: 24px;
+    margin-top: 16px;
+  }
+  .create-composer {
+    position: static;
+  }
+  .composer-card {
+    padding: 14px;
+  }
+  .slots {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .create-library .library-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  }
+  .user-dropdown {
+    right: -8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav a {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  .home-hero h1 br { display: none; }
+}
+
+
+/* ============================================================
+   ABOUT — floating business card cluster (ported from tripportfolio)
+   ============================================================ */
+.about-cluster-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(300px, 36vw, 460px);
+  gap: 48px;
+  align-items: center;
+  min-height: clamp(360px, 46vw, 520px);
+}
+@media (max-width: 1024px) {
+  .about-cluster-stage { grid-template-columns: 1fr; min-height: 0; }
+}
+
+.about-copy { min-width: 0; }
+
+.about-cluster {
+  --mx: 0;
+  --my: 0;
+  position: relative;
+  width: clamp(300px, 36vw, 460px);
+  height: clamp(300px, 36vw, 460px);
+  justify-self: end;
+  pointer-events: none;
+  perspective: 1200px;
+}
+@media (max-width: 1024px) { .about-cluster { display: none; } }
+
+.about-card {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 280px;
+  padding: 18px 20px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow:
+    0 30px 80px -30px rgba(0, 0, 0, 0.65),
+    0 8px 22px -10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transform-style: preserve-3d;
+  transform:
+    translate(-50%, -50%)
+    rotate(-5deg)
+    translate3d(calc(var(--mx) * 14px), calc(var(--my) * 14px), 0)
+    rotateX(calc(var(--my) * -10deg))
+    rotateY(calc(var(--mx) * 12deg));
+  pointer-events: auto;
+  overflow: hidden;
+  animation: about-card-float 10s ease-in-out infinite;
+}
+@keyframes about-card-float {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -8px; }
+}
+.about-card-shine {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(232, 122, 42, 0.18) 50%,
+    transparent 70%
+  );
+  opacity: calc(.4 + var(--mx) * .4);
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.about-card-row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 8px; position: relative;
+}
+.mono.micro {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  text-transform: uppercase;
+}
+.about-card-status { color: var(--leaf); }
+.about-card-status .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--leaf);
+  animation: about-pulse 1.5s ease infinite;
+}
+@keyframes about-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+.about-card-roles {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  color: var(--text-high);
+  position: relative;
+}
+.about-card-roles div:nth-child(2) {
+  font-style: italic;
+  color: var(--pumpkin);
+  padding-left: 14px;
+  font-weight: 500;
+}
+.about-card-roles div:nth-child(3) {
+  padding-left: 28px;
+  font-size: 24px;
+}
+.about-card-roles .prim { color: var(--pumpkin); }
+
+.about-cluster .orbit {
+  position: absolute;
+  pointer-events: none;
+  transition: transform .25s ease-out;
+}
+.about-cluster .orbit-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.55);
+  pointer-events: auto;
+  transition: box-shadow .35s ease;
+}
+.about-cluster .orbit-inner:hover {
+  box-shadow: 0 20px 40px -10px rgba(232, 122, 42, 0.55);
+}
+
+.about-cluster .orbit-logo .orbit-inner {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 999px;
+  overflow: hidden;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.55));
+}
+.about-cluster .orbit-logo .orbit-inner:hover {
+  filter: drop-shadow(0 18px 30px rgba(232, 122, 42, 0.55));
+}
+.about-cluster .orbit-logo img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 14px;
+}
+
+.about-cluster .orbit-block .orbit-inner {
+  overflow: hidden;
+  background: var(--bg-warm-2);
+}
+.about-cluster .orbit-block img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.05);
+}
+
+.about-cluster .orbit-1 {
+  top: 4%; right: 2%;
+  width: 92px; height: 92px;
+  transform: translate3d(calc(var(--mx) * -22px), calc(var(--my) * -18px), 0);
+}
+.about-cluster .orbit-1 .orbit-inner { animation: about-orbit-bob-1 7s ease-in-out infinite; }
+
+.about-cluster .orbit-2 {
+  bottom: 6%; left: 4%;
+  width: 96px; height: 96px;
+  transform: translate3d(calc(var(--mx) * 28px), calc(var(--my) * 22px), 0);
+}
+.about-cluster .orbit-2 .orbit-inner { animation: about-orbit-bob-2 9s ease-in-out infinite; }
+
+.about-cluster .orbit-3 {
+  top: 10%; left: 6%;
+  width: 78px; height: 78px;
+  transform: translate3d(calc(var(--mx) * 20px), calc(var(--my) * -24px), 0);
+}
+.about-cluster .orbit-3 .orbit-inner { animation: about-orbit-bob-3 8s ease-in-out infinite; }
+
+@keyframes about-orbit-bob-1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(6px, -10px) rotate(6deg); }
+}
+@keyframes about-orbit-bob-2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(-8px, 8px) rotate(-4deg); }
+}
+@keyframes about-orbit-bob-3 {
+  0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+  50%      { transform: translate(10px, -6px) rotate(4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-card,
+  .about-cluster .orbit-1 .orbit-inner,
+  .about-cluster .orbit-2 .orbit-inner,
+  .about-cluster .orbit-3 .orbit-inner { animation: none; }
+}
