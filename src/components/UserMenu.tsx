@@ -21,7 +21,7 @@ export default function UserMenu() {
   const user = session?.user;
   if (!user) {
     return (
-      <Link to="/sign-in" className="btn btn-secondary btn-sm">
+      <Link to="/sign-in" className="btn btn-secondary btn-sm" style={{ whiteSpace: 'nowrap' }}>
         Sign in
       </Link>
     );

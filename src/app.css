@@ -14,6 +14,7 @@
   backdrop-filter: blur(12px) saturate(140%);
   background: rgba(21, 32, 26, 0.72);
   border-bottom: 1px solid var(--border-soft);
+  padding-top: env(safe-area-inset-top);
 }
 .topbar-inner {
   max-width: 1240px;
